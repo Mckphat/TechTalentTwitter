@@ -10,3 +10,10 @@ h2 {
 	background-color: #00b1ff;
 	font-size: 30px;
 }
+a.username {
+    color: #00aced
+}
+
+a.tag {
+    color: #0084b4
+}

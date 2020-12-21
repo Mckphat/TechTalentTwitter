@@ -85,11 +85,23 @@ public class Tweet {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 
 	@Override
 	public String toString() {
-		return "Tweet [id=" + id + ", user=" + user + ", message=" + message + ", createdAt=" + createdAt + "]";
+		return "Tweet [id=" + id + ", user=" + user + ", message=" + message + ", createdAt=" + createdAt + ", tags="
+				+ tags + "]";
 	}
+
+	
 	
 }
 

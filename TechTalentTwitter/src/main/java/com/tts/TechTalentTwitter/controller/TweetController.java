@@ -1,5 +1,6 @@
 package com.tts.TechTalentTwitter.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tts.TechTalentTwitter.model.Tweet;
+import com.tts.TechTalentTwitter.model.TweetDisplay;
 import com.tts.TechTalentTwitter.model.User;
 import com.tts.TechTalentTwitter.service.TweetService;
 import com.tts.TechTalentTwitter.service.UserService;
@@ -31,9 +34,21 @@ public class TweetController {
      * allow us to get all tweets, 
      * and will accept a GET request to either /tweets or /.
      */
-    @GetMapping(value= {"/tweets", "/"})
-    public String getFeed(Model model){
-        List<Tweet> tweets = tweetService.findAll();
+    @GetMapping(value = { "/tweets", "/" })
+    public String getFeed(@RequestParam(value = "filter", required = false) String filter, Model model) {
+        User loggedInUser = userService.getLoggedInUser();
+        List<TweetDisplay> tweets = new ArrayList<>();
+        if (filter == null) {
+            filter = "all";
+        }
+        if (filter.equalsIgnoreCase("following")) {
+            List<User> following = loggedInUser.getFollowing();
+            tweets = tweetService.findAllByUsers(following);
+            model.addAttribute("filter", "following");
+        } else {
+            tweets = tweetService.findAll();
+            model.addAttribute("filter", "all");
+        }
         model.addAttribute("tweetList", tweets);
         return "feed";
     }
@@ -68,11 +83,12 @@ public class TweetController {
     }
     @GetMapping(value = "/tweets/{tag}")
     public String getTweetsByTag(@PathVariable(value="tag") String tag, Model model) {
-        List<Tweet> tweets = tweetService.findAllWithTag(tag);
+        List<TweetDisplay> tweets = tweetService.findAllWithTag(tag);
         model.addAttribute("tweetList", tweets);
         model.addAttribute("tag", tag);
         return "taggedTweets";
     }
+   
 }
 
 
