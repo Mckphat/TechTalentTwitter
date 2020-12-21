@@ -1,1 +1,12 @@
-@charset "UTF-8";
+body {
+	background-color: #161515;
+}
+h2 {
+	color: white;
+	text-align: center;
+	font-size: 50px;
+}
+.btn {
+	background-color: #00b1ff;
+	font-size: 30px;
+}
