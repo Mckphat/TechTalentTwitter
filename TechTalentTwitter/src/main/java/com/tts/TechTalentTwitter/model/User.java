@@ -1,6 +1,7 @@
 package com.tts.TechTalentTwitter.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -66,6 +67,14 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), 
 	    inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_follower", joinColumns = @JoinColumn(name = "user_id"), 
+	    inverseJoinColumns = @JoinColumn(name = "follower_id"))
+	private List<User> followers;
+	
+	@ManyToMany(mappedBy="followers")
+	private List<User> following;
 
 	public Long getId() {
 		return id;
@@ -139,17 +148,29 @@ public class User {
 		this.roles = roles;
 	}
 
+	public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+
+	public List<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", active=" + active + ", createdAt="
-				+ createdAt + ", roles=" + roles + "]";
+				+ createdAt + ", roles=" + roles + ", followers=" + followers + ", following=" + following + "]";
+	
+	
 	}
-	
-	
-	
-	
-	
-
 
 }
