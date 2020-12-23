@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tts.TechTalentTwitter.model.Tag;
 import com.tts.TechTalentTwitter.model.Tweet;
 import com.tts.TechTalentTwitter.model.TweetDisplay;
 import com.tts.TechTalentTwitter.model.User;
+import com.tts.TechTalentTwitter.repository.TagRepository;
 import com.tts.TechTalentTwitter.service.TweetService;
 import com.tts.TechTalentTwitter.service.UserService;
 
@@ -27,6 +29,9 @@ public class TweetController {
 	
     @Autowired
     private TweetService tweetService;
+    
+    @Autowired
+	private TagRepository tagRepository;
     
     
     /**
@@ -87,6 +92,12 @@ public class TweetController {
         model.addAttribute("tweetList", tweets);
         model.addAttribute("tag", tag);
         return "taggedTweets";
+    }
+    @GetMapping(value = "/tags")
+    public String getTags(Model model) {
+    	List<Tag> tag = (List<Tag>)tagRepository.findAll();
+    	model.addAttribute("tagList", tag);
+    	return "tags";
     }
    
 }

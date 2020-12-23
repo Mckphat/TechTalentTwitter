@@ -29,23 +29,22 @@ public class UserController {
     //add more code here
     @GetMapping(value = "/users/{username}")
     public String getUser(@PathVariable(value="username") String username, Model model) {	
-	    
     	User loggedInUser = userService.getLoggedInUser();
+    	User user = userService.findByUsername(username);
+    	List<TweetDisplay> tweets = tweetService.findAllByUser(user);
     	List<User> following = loggedInUser.getFollowing();
     	boolean isFollowing = false;
     	for (User followedUser : following) {
-    	    if (followedUser.getUsername().equals(username)) {
-    	        isFollowing = true;
-    	    }
+    		if (followedUser.getUsername().equals(username)) {
+    			isFollowing = true;
+    		}
     	}
     	boolean isSelfPage = loggedInUser.getUsername().equals(username);
-    	model.addAttribute("isSelfPage", isSelfPage);
+    	model.addAttribute("tweetList", tweets);
+    	model.addAttribute("user", user);
     	model.addAttribute("following", isFollowing);
-    	User user = userService.findByUsername(username);
-	    List<TweetDisplay> tweets = tweetService.findAllByUser(user);
-	    model.addAttribute("tweetList", tweets);
-	    model.addAttribute("user", user);
-	    return "user";
+    	model.addAttribute("isSelfPage", isSelfPage);
+    	return "user";
 	}
     @GetMapping(value = "/users")
 	public String getUsers(@RequestParam(value = "filter", required = false) String filter, Model model) {
