@@ -4,7 +4,7 @@
 <head>
 	<meta charset = "UTF-8">
 	<meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
-    <title>Log in</title>
+    <title>Tweets</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" href="/custom.css">
@@ -13,15 +13,19 @@
     <script src="/custom.js"></script>
 </head>
 <body>
-    <div class="container">
-    	<div th:replace="fragments/navbar"></div>
-        <h2>Tweets</h2>
-        <div th:each="tweet:${tweetList}">
-            <h5>@<span th:text="${tweet.user.username}"></span>
-            <small><span th:text="${#dates.format(tweet.createdAt, 'M/d/yy')}"></span></small></h5>
-            <p th:utext="${tweet.message}"></p>
-            <small th:text="${tweet.date}"></small>
-    	</div>
-    </div>
+	<div class = "container">
+		<div th:replace="fragments/navbar"></div>
+		<h2>Tweets</h2>
+		<div th:each = "tweet:${tweetList}" id = "tweets">
+			
+			<a class="username" th:href="@{/users/} + ${tweet.user.username}"><h5>@<span th:text="${tweet.user.username}"></span></a>	
+			<small th:text="${tweet.date}"></small></h5>
+
+			<!-- this does not work for some reason
+			<small><span th:text = "${#date.format(tweet.createdAt, 'M/d/yy')}"></span></small></h5>
+			-->
+			<p th:utext = "${tweet.message}"></p>
+		</div>
+	</div>
 </body>
 </html>

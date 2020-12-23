@@ -17,3 +17,13 @@ a.username {
 a.tag {
     color: #0084b4
 }
+.validation-message, p, h5 {
+	color:white;
+	font-family: sans;
+}
+
+#tweets {
+	outline: 1px solid grey;
+	padding: 15px;
+	margin: 15px;
+}
